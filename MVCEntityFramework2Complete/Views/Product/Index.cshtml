@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MVCEntityFramework2Complete.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryNavigation.CategoryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    string imgSrc = null;
+    if (item.Picture !=null)
+    {
+        var base64 = Convert.ToBase64String(item.Picture);
+        imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+    }
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>            
+                @{
+                    if (item.Picture != null)
+                    {
+                        <img src="@imgSrc" width="150" height="200" />
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryNavigation.CategoryName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Xoa", "Delete", new {  id=item.ProductId },new {onClick="return confirm('Are you sure to delete " + item.ProductName+ "?')" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
